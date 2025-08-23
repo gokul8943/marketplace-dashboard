@@ -6,6 +6,8 @@ import Filters from "@/components/Filters";
 import Slider from "@/components/Slider";
 import Client from "@/components/Client";
 import ProductCard from "@/components/ProductCard";
+import Image from "next/image";
+import svg from "../../public/image/SilderImage.svg";
 
 export default function ProductsPage() {
     const [page, setPage] = useState(1);
@@ -22,7 +24,7 @@ export default function ProductsPage() {
     return (
         <div className="p-6">
             <div className="py-5">
-                <Slider />
+                <Image src={svg} alt="sliderImage" height={318} width={1200}  />
             </div>
             <div className="flex gap-6">
                 {/* Sidebar Filters */}
