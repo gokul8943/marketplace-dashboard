@@ -8,6 +8,7 @@ import Client from "@/components/Client";
 import ProductCard from "@/components/ProductCard";
 import Image from "next/image";
 import svg from "../../public/image/SilderImage.svg";
+import Pagination from "@/components/Pagination";
 
 export default function ProductsPage() {
     const [page, setPage] = useState(1);
@@ -15,8 +16,12 @@ export default function ProductsPage() {
     const { data, isLoading, isError } = useQuery({
         queryKey: ["products", page],
         queryFn: async () =>
-            (await api.get(`/products?page=${page}&limit=12`)).data, 
+            (await api.get(`/products?page=${page}&limit=12`)).data,
     });
+    
+    const totalPages = data?.total && data?.limit 
+    ? Math.ceil(data.total / data.limit) 
+    : 1;
 
     if (isLoading) return <p>Loading...</p>;
     if (isError) return <p>Error loading products</p>;
@@ -24,7 +29,7 @@ export default function ProductsPage() {
     return (
         <div className="p-6">
             <div className="py-5">
-                <Image src={svg} alt="sliderImage" height={318} width={1200}  />
+                <Image src={svg} alt="sliderImage" height={318} width={1200} />
             </div>
             <div className="flex gap-6">
                 {/* Sidebar Filters */}
@@ -48,21 +53,11 @@ export default function ProductsPage() {
 
                     {/* Pagination */}
                     <div className="flex justify-center mt-6">
-                        <button
-                            onClick={() => setPage(page - 1)}
-                            disabled={page === 1}
-                            className="px-4 py-2 border rounded disabled:opacity-50"
-                        >
-                            Prev
-                        </button>
-                        <span className="px-4 py-2">Page {page}</span>
-                        <button
-                            onClick={() => setPage(page + 1)}
-                            disabled={page * data.limit >= data.total}
-                            className="px-4 py-2 border rounded disabled:opacity-50"
-                        >
-                            Next
-                        </button>
+                        <Pagination
+                            currentPage={page}
+                            totalPages={totalPages}
+                            onPageChange={setPage}
+                        />
                     </div>
                 </div>
             </div>
