@@ -5,7 +5,7 @@ import { useState } from "react";
 import Filters from "@/components/Filters";
 import Slider from "@/components/Slider";
 import Client from "@/components/Client";
-import ProductCard from "@/components/ProductCard"; 
+import ProductCard from "@/components/ProductCard";
 
 export default function ProductsPage() {
     const [page, setPage] = useState(1);
@@ -13,7 +13,7 @@ export default function ProductsPage() {
     const { data, isLoading, isError } = useQuery({
         queryKey: ["products", page],
         queryFn: async () =>
-            (await api.get(`/products?page=${page}&limit=9`)).data, // ✅ 9 items for a grid
+            (await api.get(`/products?page=${page}&limit=12`)).data, 
     });
 
     if (isLoading) return <p>Loading...</p>;
@@ -32,9 +32,15 @@ export default function ProductsPage() {
 
                 {/* Product Grid */}
                 <div className="flex-1">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                         {data.data.map((product: any) => (
-                            <ProductCard key={product.id} />
+                            <ProductCard
+                                key={product.id}
+                                products={product}
+                                page={page}
+                                total={data.total}
+                                limit={data.limit}
+                                onPageChange={setPage} />
                         ))}
                     </div>
 
