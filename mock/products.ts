@@ -22,6 +22,6 @@ export const products: Product[] = Array.from({ length: 50 }).map(() => ({
   vendor: faker.company.name(),
   status: faker.helpers.arrayElement(["active", "out-of-stock"]),
   createdAt: faker.date.past().toISOString(),
-  unspc: faker.string.uuid(),
+  unspc: `${faker.number.int({ min: 1000, max: 9999 })}.${faker.number.int({ min: 1000, max: 9999 })}`,
   image: `https://picsum.photos/200/200?random=${faker.number.int({ min: 1, max: 1000 })}`,
 }));

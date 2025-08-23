@@ -23,7 +23,7 @@ export default function ProductCard({ products, page, total, limit, onPageChange
             <div className="px-4 py-2">
                 <div className="relative h-48 w-full bg-gray-50 rounded-lg flex items-center justify-center">
                     <img
-                        src={products.image} // works with any URL from faker
+                        src={products.image} 
                         alt={products.name}
                         className="object-cover rounded-lg w-full h-full"
                     />
@@ -38,7 +38,7 @@ export default function ProductCard({ products, page, total, limit, onPageChange
                 </h3>
 
                 <div className="text-gray-600 text-xs mb-1">
-                    <span className="font-medium">UNSPC:</span>  {products.unspc || `RY${products.id.slice(0, 6).toUpperCase()}`}
+                    <span className="font-medium">UNSPC:</span>  {`RY${products.unspc}` || `RY${products.id.slice(0, 6).toUpperCase()}`}
                 </div>
 
                 <div className="text-gray-600 text-xs mb-4">

@@ -38,7 +38,7 @@ function SkeletonCard() {
   );
 }
 
-// Main skeleton component that renders multiple cards
+
 export default function ProductSkeleton({ count = 8 }) {
   return (
     <div className="w-full max-w-6xl mx-auto p-4">
@@ -61,7 +61,7 @@ export default function ProductSkeleton({ count = 8 }) {
           ))}
         </div>
         
-        {/* Next Button Skeleton */}
+        
         <div className="h-10 w-16 bg-gray-200 rounded-lg animate-pulse"></div>
       </div>
     </div>

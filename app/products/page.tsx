@@ -9,6 +9,7 @@ import Image from "next/image";
 import svg from "../../public/image/SilderImage.svg";
 import Pagination from "@/components/Pagination";
 import { products as mockProducts, Product } from "@/mock/products";
+import SkeletonCard from "@/components/SkeletonCard";
 
 export default function ProductsPage() {
     const [page, setPage] = useState(1);
@@ -40,7 +41,7 @@ export default function ProductsPage() {
     const totalPages = Math.ceil(filteredProducts.length / 12);
     const paginatedProducts = filteredProducts.slice((page - 1) * 12, page * 12);
 
-    if (isLoading) return <p>Loading...</p>;
+    if (isLoading) return <p><SkeletonCard /></p>;
     if (isError) return <p>Error loading products</p>;
 
     return (
