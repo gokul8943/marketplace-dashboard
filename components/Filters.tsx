@@ -9,17 +9,23 @@ type FilterItem = {
   count: number;
 };
 
-export default function FiltersComponent() {
-  const [expandedSections, setExpandedSections] = useState<Record<SectionKey, boolean>>({
+type FiltersProps = {
+  selectedFilters: Record<SectionKey, string[]>;
+  setSelectedFilters: React.Dispatch<
+    React.SetStateAction<Record<SectionKey, string[]>>
+  >;
+};
+
+export default function FiltersComponent({
+  selectedFilters,
+  setSelectedFilters,
+}: FiltersProps) {
+  const [expandedSections, setExpandedSections] = useState<
+    Record<SectionKey, boolean>
+  >({
     businessType: true,
     category: true,
     subCategory: true,
-  });
-
-  const [selectedFilters, setSelectedFilters] = useState<Record<SectionKey, string[]>>({
-    businessType: [],
-    category: ["Utilities and Services"],
-    subCategory: [],
   });
 
   const toggleSection = (section: SectionKey) => {
@@ -31,20 +37,18 @@ export default function FiltersComponent() {
 
   const handleFilterChange = (section: SectionKey, value: string) => {
     setSelectedFilters((prev) => {
-      // Handle "All" logic
       if (value === "All") {
         return {
           ...prev,
           [section]: prev[section].includes("All") ? [] : ["All"],
         };
       }
-
       const isSelected = prev[section].includes(value);
       return {
         ...prev,
         [section]: isSelected
           ? prev[section].filter((item) => item !== value)
-          : [...prev[section].filter((item) => item !== "All"), value], // remove "All" if selecting others
+          : [...prev[section].filter((item) => item !== "All"), value],
       };
     });
   };
@@ -84,14 +88,17 @@ export default function FiltersComponent() {
     { name: "Gas Pipeline Installation", count: 12 },
   ];
 
-  type FilterSectionProps = {
+  const FilterSection = ({
+    title,
+    items,
+    section,
+    showMore = false,
+  }: {
     title: string;
     items: FilterItem[];
     section: SectionKey;
     showMore?: boolean;
-  };
-
-  const FilterSection = ({ title, items, section, showMore = false }: FilterSectionProps) => {
+  }) => {
     const [showAll, setShowAll] = useState(false);
     const displayItems = showMore && !showAll ? items.slice(0, 4) : items;
 
@@ -154,26 +161,9 @@ export default function FiltersComponent() {
 
       {/* Filter Sections */}
       <div className="space-y-0">
-        <FilterSection
-          title="Business Type"
-          items={businessTypes}
-          section="businessType"
-          showMore={true}
-        />
-
-        <FilterSection
-          title="Category"
-          items={categories}
-          section="category"
-          showMore={true}
-        />
-
-        <FilterSection
-          title="Sub Category"
-          items={subCategories}
-          section="subCategory"
-          showMore={true}
-        />
+        <FilterSection title="Business Type" items={businessTypes} section="businessType" showMore />
+        <FilterSection title="Category" items={categories} section="category" showMore />
+        <FilterSection title="Sub Category" items={subCategories} section="subCategory" showMore />
       </div>
     </div>
   );
