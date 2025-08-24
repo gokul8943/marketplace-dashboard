@@ -1,53 +1,51 @@
-import React, { useState } from 'react';
+import React, { useState, FC } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-export default function Pagination({ 
-  currentPage = 1, 
-  totalPages = 7, 
-  onPageChange = (page: number) => {} 
-}) {
-  const [activePage, setActivePage] = useState(currentPage);
+interface PaginationProps {
+  currentPage?: number;
+  totalPages?: number;
+  onPageChange?: (page: number) => void;
+}
 
-  const handlePageClick = (page:number) => {
+const Pagination: FC<PaginationProps> = ({
+  currentPage = 1,
+  totalPages = 7,
+  onPageChange = () => {},
+}) => {
+  const [activePage, setActivePage] = useState<number>(currentPage);
+
+  const handlePageClick = (page: number) => {
     setActivePage(page);
     onPageChange(page);
   };
 
   const handlePrevious = () => {
-    if (activePage > 1) {
-      handlePageClick(activePage - 1);
-    }
+    if (activePage > 1) handlePageClick(activePage - 1);
   };
 
   const handleNext = () => {
-    if (activePage < totalPages) {
-      handlePageClick(activePage + 1);
-    }
+    if (activePage < totalPages) handlePageClick(activePage + 1);
   };
 
   const renderPageNumbers = () => {
-    const pages = [];
-    for (let i = 1; i <= totalPages; i++) {
-      pages.push(
-        <button
-          key={i}
-          onClick={() => handlePageClick(i)}
-          className={`w-10 h-10 rounded-lg text-sm font-medium transition-all duration-200 ${
-            activePage === i
-              ? 'bg-purple-100 text-purple-700 shadow-sm'
-              : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
-          }`}
-        >
-          {i}
-        </button>
-      );
-    }
-    return pages;
+    return Array.from({ length: totalPages }, (_, i) => i + 1).map((i) => (
+      <button
+        key={i}
+        onClick={() => handlePageClick(i)}
+        className={`w-10 h-10 rounded-lg text-sm font-medium transition-all duration-200 ${
+          activePage === i
+            ? 'bg-purple-100 text-purple-700 shadow-sm'
+            : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+        }`}
+      >
+        {i}
+      </button>
+    ));
   };
 
   return (
     <div className="flex items-center justify-center space-x-2 py-4">
-      {/* Previous Button */}
+      {/* Previous */}
       <button
         onClick={handlePrevious}
         disabled={activePage === 1}
@@ -62,11 +60,9 @@ export default function Pagination({
       </button>
 
       {/* Page Numbers */}
-      <div className="flex items-center space-x-1">
-        {renderPageNumbers()}
-      </div>
+      <div className="flex items-center space-x-1">{renderPageNumbers()}</div>
 
-      {/* Next Button */}
+      {/* Next */}
       <button
         onClick={handleNext}
         disabled={activePage === totalPages}
@@ -81,4 +77,6 @@ export default function Pagination({
       </button>
     </div>
   );
-}
+};
+
+export default Pagination;

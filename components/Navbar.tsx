@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { ChevronDown, Search } from 'lucide-react';
 
-export default function iProcureNavbar() {
+export default function IProcureNavbar() {
   const [isProductsOpen, setIsProductsOpen] = useState(false);
 
   return (

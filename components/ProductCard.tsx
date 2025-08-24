@@ -22,9 +22,11 @@ export default function ProductCard({ products, page, total, limit, onPageChange
             {/* Product Image */}
             <div className="px-4 py-2">
                 <div className="relative h-48 w-full bg-gray-50 rounded-lg flex items-center justify-center">
-                    <img
+                    <Image
                         src={products.image} 
                         alt={products.name}
+                        width={200}
+                        height={200}
                         className="object-cover rounded-lg w-full h-full"
                     />
 
